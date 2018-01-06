@@ -1,4 +1,4 @@
-## Search Catalog
+# Search Catalog
 
 The intent of this app is to provide a simple interface for sharing knowledge in Splunk through editing a simple CSV file, the app can generate a set of standard dashboards and navigation. 
 
