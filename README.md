@@ -27,4 +27,7 @@ Once the lookup/CSV file has been populated with searches, the app has a custom 
 From the Welcome screen a user is introduced to the number of searches that exist in the search catalog along with an idea of how those searches are dispersed. The user is given instructions to browse through the Search Catalog’s menus, search or see what are the latest searches that have been added. 
 
 ### Support
-Support will be provided through Splunkbase or Splunk Answers.
+Support will be provided through Splunkbase (click on Contact Developer) or Splunk Answers or [submit an issue in Github](https://github.com/geekusa/search_catalog/issues/new). Expected responses will depend on issue and as time permits, but every attempt will be made to fix within 2 weeks. 
+
+### Documentation
+This README file constitutes the documenation for the app and will be kept upto date on [Github](https://github.com/geekusa/search_catalog/blob/master/README.md) as well as on the Splunkbase page.
