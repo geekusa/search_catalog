@@ -1,0 +1,47 @@
+<dashboard hideEdit="true">
+  <label>Welcome</label>
+  <search>
+    <query>| inputlookup search_catalog
+| where isnotnull(search)
+| stats count</query>
+    <done>
+      <condition>
+        <set token="total_searches">$result.count$</set>
+      </condition>
+    </done>
+  </search>
+  <row>
+    <panel>
+      <html>
+        <div style="font-size:12pt">
+          ... to the Search Catalog. There are currently <b>$total_searches$</b> total searches in the catalog.
+        </div>
+        <br/>
+        <div>Click the <b>Search Catalog</b> tab above to begin, like so:</div>
+        <br/>
+        <img src="/static/app/search_catalog/menu_example.gif"/>
+        <br/><br/>
+        <div>If you are not sure where to start try <a href="_search">searching the catalog</a> first.</div>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Breakdown of available searches by section</title>
+      <table>
+        <search>
+          <query>|inputlookup search_catalog
+|stats count by section parent
+|stats dc(parent) AS subsections sum(count) AS searches BY section</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <format type="color" field="searches">
+          <colorPalette type="minMidMax" maxColor="#0ED3A6" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+</dashboard>

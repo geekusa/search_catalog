@@ -1,0 +1,33 @@
+<form hideEdit="true">
+  <label>Generate Dashboards</label>
+  <search id="base_search">
+    <query>|generatedashboards</query>
+  </search>
+  <fieldset submitButton="true">
+    <input type="radio" token="testmode" depends="$hidden$">
+      <label>testmode</label>
+      <choice value="false">false</choice>
+      <default>false</default>
+      <initialValue>false</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <html>
+        <div>Press the <b>Submit</b> button (above) to generate the new dashboards. Then use the <b>Refresh</b> button to open refresh controls for nav and views or alternatively restart Splunk</div><br/>
+        <div align="left" style="font-size:12px">
+          <a href="/debug/refresh?entity=/data/ui/views&amp;entity=/data/ui/nav" class="btn btn-primary" target="_blank">Refresh</a>
+        </div>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <search base="base_search">
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</form>

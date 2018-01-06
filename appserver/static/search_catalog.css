@@ -1,0 +1,22 @@
+.hidden_panel {
+    background-color: #EEEEEE;
+    padding: 10px;
+    margin: -10px;
+}
+
+p {
+    margin-top: 2px;
+}
+
+a.special:link, a.special:visited {
+    background-color: #0ED3A6; 
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+ a.special:hover, a.special:active {
+    background-color: #68E4C7;
+}

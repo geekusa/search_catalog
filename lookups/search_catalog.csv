@@ -1,0 +1,17 @@
+name,type,parent,search,section,notes,"date_added"
+Linux,section,,,,,
+Windows,section,,,,,
+Security,subsection,Linux,,,,
+File,subsection,Windows,,,,
+Security,subsection,Windows,,,,
+"SSHD Failed Logins",,Security,"sourcetype=syslog app=sshd action=failure",Linux,"When using Splunk_TA_nix app",1515094223
+"SU To Root",,Security,"sourcetype=syslog process=su ""to root""",Linux,"Linux privilege escalation",1515094222
+"SUDO Issued Commands",,Security,"sourcetype=syslog process=sudo COMMAND=*",Linux,"Linux privilege escalation",1515094221
+"Windows File Audit",,File,"index=wineventlog EventCode=4663",Windows,"File events, requires special auditing group policy.",1515094224
+"Account Creation",,Security,"index=wineventlog EventCode=4720",Windows,"Subject Account Name is the creator",1515094225
+"Audit Log Cleared",,Security,"index=wineventlog EventCode=1102",Windows,"Requires admin privilege to perform",1515094220
+"Failed Logon",,Security,"index=wineventlog EventCode=4624",Windows,"Give careful attention to Logon Type",1515094219
+"Lock and Unlock Events",,Security,"index=wineventlog EventCode IN (4800 4801)",Windows,"Domain or local events",1515094227
+"Lockout Event",,Security,"index=wineventlog EventCode=4740",Windows,"Can occur for local or domain accounts",1515094226
+"PowerShell Script Block",,Security,"index=wineventlog EventCode=4104",Windows,"Logs suspicious PowerShell scripts even if script block not enabled only on PSv5+",1515217889
+"Privileged Account Usage",,Security,"index=wineventlog EventCode=4672",Windows,"Administrative rights being used",1515094228

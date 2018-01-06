@@ -1,0 +1,71 @@
+<form stylesheet="search_catalog.css" hideEdit="true">
+  <label>Add Search (Append Only)</label>
+  <search id="add">
+    <query>| inputlookup search_catalog
+| append [
+| makeresults
+| eval name = "$name$"
+| eval type = case("$type$"=="section", "section", "$type$"=="subsection", "subsection", true(), null())
+| eval parent = case("$parent$"==":none:", null(), "$type$"=="search", mvindex(split("$parent$", " :: "), 1), true(),"$parent$")
+| eval section = if("$type$"=="search", mvindex(split("$parent$", " :: "), 0), null())
+| eval search = "$search$"
+| eval notes = $notes$
+| eval date_added = strftime(now(), "%s")
+]
+| table name,type,parent,search,section,notes,date_added
+| sort type section parent name
+| outputlookup search_catalog</query>
+  </search>
+  <fieldset submitButton="true">
+    <input searchWhenChanged="false" type="text" token="name">
+      <label>Name</label>
+    </input>
+    <input searchWhenChanged="false" type="radio" token="type">
+      <label>Type</label>
+      <choice value="search">Search</choice>
+      <choice value="section">Section</choice>
+      <choice value="subsection">Sub-Section</choice>
+      <default>search</default>
+      <initialValue>search</initialValue>
+    </input>
+    <input searchWhenChanged="false" type="dropdown" token="parent">
+      <label>Parent</label>
+      <choice value=":none:">None (Section)</choice>
+      <fieldForLabel>name</fieldForLabel>
+      <fieldForValue>name</fieldForValue>
+      <search>
+        <query>|inputlookup search_catalog
+|where type=="section" OR type=="subsection"
+|eval name = if(type=="subsection", parent." :: ".name, name)
+|fields name</query>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </search>
+    </input>
+    <input searchWhenChanged="false" type="text" token="search">
+      <label>Search</label>
+    </input>
+    <input searchWhenChanged="false" type="text" token="notes">
+      <label>Notes</label>
+      <default>""</default>
+    </input>
+  </fieldset>
+  <row>
+    <html>
+      <div class="hidden_panel">Simple interface to add search, you will need to run <a href="_refresh">generate dashboards</a> afterwards. Use <a href="/app/lookup_editor/lookup_edit?owner=nobody&amp;namespace=search_catalog&amp;lookup=search_catalog.csv&amp;type=csv">lookup editor</a> or modify CSV directly to delete searches.</div>
+    </html>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <search base="add">
+          <query>
+| table name,type,parent,search,section,notes
+          </query>
+        </search>
+        <option name="count">100</option>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</form>

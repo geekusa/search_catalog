@@ -1,0 +1,24 @@
+<dashboard hideEdit="true">
+  <label>Most Recent Added Searches</label>
+  <row>
+    <panel>
+      <title>Click to go to search</title>
+      <table>
+        <search>
+          <query>| inputlookup search_catalog | where isnotnull(search) | sort -date_added | head 20
+|table section parent name</query>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">row</option>
+        <format type="color" field="section">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+        <drilldown>
+          <eval token="dashboard_target">replace(lower($row.name$), " ", "_")</eval>
+          <link target="_blank">$dashboard_target$</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</dashboard>

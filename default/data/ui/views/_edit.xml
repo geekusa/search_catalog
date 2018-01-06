@@ -1,0 +1,8 @@
+<dashboard script="lookups_edit.js" isDashboard="false" hideEdit="true">
+  <label>Edit CSV (Requires SA-Utils)</label>
+    <row>
+        <html id="element1">
+            <div id="lookup_editor"/>
+        </html>
+    </row>
+</dashboard>
