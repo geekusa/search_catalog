@@ -4,7 +4,7 @@ import urllib
 import xml.etree.cElementTree as ET
 import xml.dom.minidom
 
-def dashboard_generate(label, main_search, filename=False, dashboard_notes=False): 
+def dashboard_generate(label, main_search, display, filename=False, dashboard_notes=False): 
     pretty = DashboardGenerate('form', label)
     pretty.add_base_search(search='|fieldsummary |table field distinct_count values', search_id='sub_search', base_search='base_search')
     pretty.add_row(3)
@@ -25,9 +25,14 @@ def dashboard_generate(label, main_search, filename=False, dashboard_notes=False
                 { 'type': 'map', '_text': '{"host":#E1FAF4,"source":#C3F4E9,"sourcetype":#A5EFDE,"index":#87E9D2}' },
             }
     }
-    table_search = r'| search field IN (host source sourcetype index) |table field distinct_count values |rename field AS "default field" distinct_count AS count |eval values = replace(values, "{\"value\":\"([^\"]+)\",\"count\":\d+}", "\1"), values=replace(values, "\[|\]", "")'
-    pretty.add_table_panel(3, table_search, title='Default Field Values', base_search='sub_search', color_dict=table_color_dict)
-    pretty.add_events_panel(4, main_search, title='Events', search_id='base_search', time_picker=True)
+    if display == 'table':
+        field_summary_search = r'stats count'
+	pretty.add_single_value_panel(3, field_summary_search, title='Number of fields/columns', base_search='sub_search', bgcolor='C3CEF4')
+        pretty.add_table_panel(4, main_search, title='Results', search_id='base_search', time_picker=True, row_count='20')
+    else:	    
+        field_summary_search = r'| search field IN (host source sourcetype index) |table field distinct_count values |rename field AS "default field" distinct_count AS count |eval values = replace(values, "{\"value\":\"([^\"]+)\",\"count\":\d+}", "\1"), values=replace(values, "\[|\]", "")'
+        pretty.add_table_panel(3, field_summary_search, title='Default Field Values', base_search='sub_search', color_dict=table_color_dict)
+        pretty.add_events_panel(4, main_search, title='Events', search_id='base_search', time_picker=True)
     if filename:
         pretty.pretty_xml(filename)
     else:
@@ -102,25 +107,70 @@ class DashboardGenerate(object):
 	if height:
             ET.SubElement(panelchart, 'option', name='height').text = height
 
-    def add_table_panel(self, row_num, search, title=False, base_search=False, earliest=False, latest=False, height=False, color_dict=False):
+    def add_single_value_panel(self, row_num, search, chart_type=False, title=False, base_search=False, earliest=False, latest=False, height=False, bgcolor=False):
+        """
+	Generate a single value panel. 
+	"""
+        panel = ET.SubElement(self.root[row_num], 'panel')
+	if title:
+	    ET.SubElement(panel, 'title').text = title
+	panelsingle = ET.SubElement(panel, 'single')
+        if base_search:
+	    panelsinglesearch = ET.SubElement(panelsingle, 'search', base=base_search)
+	    ET.SubElement(panelsinglesearch, 'query').text = search
+	else:
+	    panelsinglesearch = ET.SubElement(panelsingle, 'search')
+	    ET.SubElement(panelsinglesearch, 'query').text = search
+	    ET.SubElement(panelsinglesearch, 'earliest', id=search_id).text = earliest
+	    ET.SubElement(panelsinglesearch, 'latest', id=search_id).text = latest
+	ET.SubElement(panelsingle, 'option', name='drilldown').text = 'none'
+	if bgcolor:
+	    ET.SubElement(panelsingle, 'option', name='colorMode').text = 'block'
+	    ET.SubElement(panelsingle, 'option', name='useColors').text = '1'
+	    ET.SubElement(panelsingle, 'option', name='rangeColors').text = '["0x'+bgcolor+'","0x'+bgcolor+'"]'
+	    ET.SubElement(panelsingle, 'option', name='rangeValues').text = '[0]'
+
+    def add_table_panel(self, row_num, search, title=False, search_id=False, base_search=False, earliest=False, latest=False, height=False, color_dict=False, time_picker=False, row_count=False):
         """
 	Generate a table panel. Provide the row_number and search.
 	"""
         panel = ET.SubElement(self.root[row_num], 'panel')
 	if title:
 	    ET.SubElement(panel, 'title').text = title
+	if time_picker:
+	    panelinput = ET.SubElement(panel, 'input', type='time', token='time', searchWhenChanged='true')
+	    panelinputdefault = ET.SubElement(panelinput, 'default')
+	    if not earliest:
+	        earliest = '-24h@h'
+	    if not latest:
+	        latest = 'now'
+	    ET.SubElement(panelinputdefault, 'earliest').text = earliest
+	    ET.SubElement(panelinputdefault, 'latest').text = latest
 	paneltable = ET.SubElement(panel, 'table')
-        if base_search:
-	    paneltablesearch = ET.SubElement(paneltable, 'search', base=base_search)
-	    ET.SubElement(paneltablesearch, 'query').text = search
+        if search_id:
+            if base_search:
+	        paneltablesearch = ET.SubElement(paneltable, 'search', base=base_search, id=search_id)
+	        ET.SubElement(paneltablesearch, 'query').text = search
+	    else:
+	        paneltablesearch = ET.SubElement(paneltable, 'search', id=search_id)
+	        ET.SubElement(paneltablesearch, 'query').text = search
+	        ET.SubElement(paneltablesearch, 'earliest').text = earliest
+	        ET.SubElement(paneltablesearch, 'latest').text = latest
 	else:
-	    panelchartsearch = ET.SubElement(panelchart, 'search')
-	    ET.SubElement(paneltablesearch, 'query').text = search
-	    ET.SubElement(paneltablesearch, 'earliest').text = earliest
-	    ET.SubElement(paneltablesearch, 'latest').text = latest
+            if base_search:
+	        paneltablesearch = ET.SubElement(paneltable, 'search', base=base_search)
+	        ET.SubElement(paneltablesearch, 'query').text = search
+	    else:
+	        paneltablesearch = ET.SubElement(paneltable, 'search')
+	        ET.SubElement(paneltablesearch, 'query').text = search
+	        ET.SubElement(paneltablesearch, 'earliest').text = earliest
+	        ET.SubElement(paneltablesearch, 'latest').text = latest
+	if row_count:
+	    ET.SubElement(paneltable, 'option', name='count').text = row_count
 	ET.SubElement(paneltable, 'option', name='dataOverlayMode').text = 'none'
 	ET.SubElement(paneltable, 'option', name='drilldown').text = 'none'
 	ET.SubElement(paneltable, 'option', name='rowNumbers').text = 'false'
+	ET.SubElement(paneltable, 'option', name='wrap').text = 'false'
 	if color_dict and isinstance(color_dict, dict):
 	    for color_field, value in color_dict.items():
 		paneltableformat = ET.SubElement(paneltable, 'format', field=color_field, type='color')
@@ -136,7 +186,7 @@ class DashboardGenerate(object):
 
     def add_events_panel(self, row_num, search, title=False, search_id=False, base_search=False, earliest=False, latest=False, height=False, time_picker=False):
         """
-	Generate a table panel. Provide the row_number and search.
+	Generate events panel. Provide the row_number and search.
 	"""
         panel = ET.SubElement(self.root[row_num], 'panel')
 	if title:
