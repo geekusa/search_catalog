@@ -9,7 +9,7 @@
 | eval parent = case("$parent$"==":none:", null(), "$type$"=="search", mvindex(split("$parent$", " :: "), 1), true(),"$parent$")
 | eval section = if("$type$"=="search", mvindex(split("$parent$", " :: "), 0), null())
 | eval search = "$search$"
-| eval display = $display$
+| eval display = case(type=="section" OR type=="subsection", null(), true(), $display$) 
 | eval notes = $notes$
 | eval date_added = strftime(now(), "%s")
 ]
