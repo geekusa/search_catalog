@@ -1,4 +1,4 @@
-<form stylesheet="search_catalog.css" hideEdit="false">
+<form stylesheet="search_catalog.css" hideEdit="true">
   <label>Add Search (Append Only)</label>
   <search id="add">
     <query>| inputlookup search_catalog
