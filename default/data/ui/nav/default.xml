@@ -23,6 +23,9 @@
         <view name="privileged_account_usage"/>
       </collection>
     </collection>
+    <collection label="Table Example">
+      <view name="table_view_example"/>
+    </collection>
   </collection>
   <collection label="Search">
     <view name="_search"/>

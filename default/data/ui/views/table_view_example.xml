@@ -1,0 +1,72 @@
+<?xml version="1.0" ?>
+<form hideEdit="false" stylesheet="search_catalog.css">
+  <label>Table View Example</label>
+  <search base="base_search" id="sub_search">
+    <query>|fieldsummary |table field distinct_count values</query>
+  </search>
+  <row>
+    <panel>
+      <html>
+        <div class="hidden_panel">
+          <h4>Notes</h4>
+          <p>Some searches by default do not have event views like dbxquery</p>
+          <h4>Search</h4>
+          <pre>|inputlookup search_catalog</pre>
+          <a href="/app/search/search?q=%7Cinputlookup+search_catalog&amp;amp;display.page.search.tab=events&amp;amp;display.general.type=events&amp;amp;earliest=$time.earliest$&amp;amp;latest=$time.latest$" target="_blank">Click to open in search</a>
+        </div>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Most Populated Fields</title>
+      <chart>
+        <search base="sub_search">
+          <query>| sort -distinct_count | head 5 | table field distinct_count</query>
+        </search>
+        <option name="charting.axisTitleX.visibility">collapsed</option>
+        <option name="charting.axisTitleY.visibility">collapsed</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.placement">none</option>
+        <option name="height">137</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Number of fields/columns</title>
+      <single>
+        <search base="sub_search">
+          <query>stats count</query>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="colorMode">block</option>
+        <option name="useColors">1</option>
+        <option name="rangeColors">[&quot;0xC3CEF4&quot;,&quot;0xC3CEF4&quot;]</option>
+        <option name="rangeValues">[0]</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Results</title>
+      <input searchWhenChanged="true" token="time" type="time">
+        <default>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </default>
+      </input>
+      <table>
+        <search id="base_search">
+          <query>|inputlookup search_catalog</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="rowNumbers">false</option>
+        <option name="wrap">false</option>
+      </table>
+    </panel>
+  </row>
+</form>
