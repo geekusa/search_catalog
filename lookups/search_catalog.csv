@@ -16,4 +16,4 @@ Lock and Unlock Events,,Security,index=wineventlog EventCode IN (4800 4801),Wind
 Lockout Event,,Security,index=wineventlog EventCode=4740,Windows,Can occur for local or domain accounts,events,1515094226
 PowerShell Script Block,,Security,index=wineventlog EventCode=4104,Windows,Logs suspicious PowerShell scripts even if script block not enabled only on PSv5+,events,1515217889
 Privileged Account Usage,,Security,index=wineventlog EventCode=4672,Windows,Administrative rights being used,events,1515094228
-Table View Example,,Table Example,|inputlookup search_catalog,Table Example,Some searches by default do not have event views like dbxquery,table,1515280410
+Table View Example,,,|inputlookup search_catalog,Table Example,Some searches by default do not have event views like dbxquery,table,1515280410

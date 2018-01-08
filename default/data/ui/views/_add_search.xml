@@ -1,4 +1,4 @@
-<form stylesheet="search_catalog.css" hideEdit="true">
+<form stylesheet="search_catalog.css" hideEdit="false">
   <label>Add Search (Append Only)</label>
   <search id="add">
     <query>| inputlookup search_catalog
@@ -9,10 +9,11 @@
 | eval parent = case("$parent$"==":none:", null(), "$type$"=="search", mvindex(split("$parent$", " :: "), 1), true(),"$parent$")
 | eval section = if("$type$"=="search", mvindex(split("$parent$", " :: "), 0), null())
 | eval search = "$search$"
+| eval display = $display$
 | eval notes = $notes$
 | eval date_added = strftime(now(), "%s")
 ]
-| table name,type,parent,search,section,notes,date_added
+| table name,type,parent,search,section,display,notes,date_added
 | sort type section parent name
 | outputlookup search_catalog</query>
   </search>
@@ -45,22 +46,31 @@
     <input searchWhenChanged="false" type="text" token="search">
       <label>Search</label>
     </input>
+    <input type="radio" token="display">
+      <label>Results Type</label>
+      <choice value="events">Events</choice>
+      <choice value="table">Table</choice>
+      <default>events</default>
+      <initialValue>events</initialValue>
+    </input>
     <input searchWhenChanged="false" type="text" token="notes">
       <label>Notes</label>
       <default>""</default>
     </input>
   </fieldset>
   <row>
-    <html>
+    <panel>
+      <html>
       <div class="hidden_panel">Simple interface to add search, you will need to run <a href="_refresh">generate dashboards</a> afterwards. Use <a href="/app/lookup_editor/lookup_edit?owner=nobody&amp;namespace=search_catalog&amp;lookup=search_catalog.csv&amp;type=csv">lookup editor</a> or modify CSV directly to delete searches.</div>
     </html>
+    </panel>
   </row>
   <row>
     <panel>
       <table>
         <search base="add">
           <query>
-| table name,type,parent,search,section,notes
+| table name,type,parent,search,section,display,notes
           </query>
         </search>
         <option name="count">100</option>
