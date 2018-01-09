@@ -20,8 +20,8 @@ from splunk.appserver.mrsparkle.lib.util import make_splunkhome_path
 class GenerateDashboards(GeneratingCommand):
     #contants
     BASE_DIR = make_splunkhome_path(["etc","apps","search_catalog"])
-    DASHBOARD_PATH = os.path.join(BASE_DIR,'default','data','ui','views')
-    NAV_FILE = os.path.join(BASE_DIR,'default','data','ui','nav','default.xml')
+    DASHBOARD_PATH = os.path.join(BASE_DIR,'local','data','ui','views')
+    NAV_FILE = os.path.join(BASE_DIR,'local','data','ui','nav','default.xml')
     LOOKUP_FILE = os.path.join(BASE_DIR,'lookups','search_catalog.csv')
 
     testmode = Option(

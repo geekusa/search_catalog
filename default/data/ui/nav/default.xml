@@ -2,30 +2,6 @@
 <nav color="#0ED3A6" search_view="search">
   <view default="true" name="_welcome"/>
   <collection label="Search Catalog">
-    <collection label="Linux">
-      <collection label="Security">
-        <view name="sshd_failed_logins"/>
-        <view name="su_to_root"/>
-        <view name="sudo_issued_commands"/>
-      </collection>
-    </collection>
-    <collection label="Windows">
-      <collection label="File">
-        <view name="windows_file_audit"/>
-      </collection>
-      <collection label="Security">
-        <view name="account_creation"/>
-        <view name="audit_log_cleared"/>
-        <view name="failed_logon"/>
-        <view name="lock_and_unlock_events"/>
-        <view name="lockout_event"/>
-        <view name="powershell_script_block"/>
-        <view name="privileged_account_usage"/>
-      </collection>
-    </collection>
-    <collection label="Table Example">
-      <view name="table_view_example"/>
-    </collection>
   </collection>
   <collection label="Search">
     <view name="_search"/>
