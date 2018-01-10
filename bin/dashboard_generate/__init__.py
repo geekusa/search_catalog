@@ -155,11 +155,11 @@ class DashboardGenerate(object):
 	        paneltablesearch = ET.SubElement(paneltable, 'search', id=search_id)
 	        ET.SubElement(paneltablesearch, 'query').text = search
 	        if time_picker:
-	            ET.SubElement(paneleventsearch, 'earliest').text = '$time.earliest$'
-	            ET.SubElement(paneleventsearch, 'latest').text = '$time.latest$'
+	            ET.SubElement(paneltablesearch, 'earliest').text = '$time.earliest$'
+	            ET.SubElement(paneltablesearch, 'latest').text = '$time.latest$'
                 else:
-	            ET.SubElement(paneleventsearch, 'earliest').text = earliest
-	            ET.SubElement(paneleventsearch, 'latest').text = latest
+	            ET.SubElement(paneltablesearch, 'earliest').text = earliest
+	            ET.SubElement(paneltablesearch, 'latest').text = latest
 	else:
             if base_search:
 	        paneltablesearch = ET.SubElement(paneltable, 'search', base=base_search)
@@ -168,11 +168,11 @@ class DashboardGenerate(object):
 	        paneltablesearch = ET.SubElement(paneltable, 'search')
 	        ET.SubElement(paneltablesearch, 'query').text = search
 	        if time_picker:
-	            ET.SubElement(paneleventsearch, 'earliest').text = '$time.earliest$'
-	            ET.SubElement(paneleventsearch, 'latest').text = '$time.latest$'
+	            ET.SubElement(paneltablesearch, 'earliest').text = '$time.earliest$'
+	            ET.SubElement(paneltablesearch, 'latest').text = '$time.latest$'
                 else:
-	            ET.SubElement(paneleventsearch, 'earliest').text = earliest
-	            ET.SubElement(paneleventsearch, 'latest').text = latest
+	            ET.SubElement(paneltablesearch, 'earliest').text = earliest
+	            ET.SubElement(paneltablesearch, 'latest').text = latest
 	if row_count:
 	    ET.SubElement(paneltable, 'option', name='count').text = row_count
 	ET.SubElement(paneltable, 'option', name='dataOverlayMode').text = 'none'
@@ -221,8 +221,8 @@ class DashboardGenerate(object):
         else:
 	    paneleventsearch = ET.SubElement(panelevent, 'search')
 	    ET.SubElement(paneleventsearch, 'query').text = search
-	    ET.SubElement(paneltablesearch, 'earliest').text = earliest
-	    ET.SubElement(paneltablesearch, 'latest').text = latest
+	    ET.SubElement(paneleventsearch, 'earliest').text = earliest
+	    ET.SubElement(paneleventsearch, 'latest').text = latest
 	ET.SubElement(panelevent, 'option', name='count').text = '20'
 	ET.SubElement(panelevent, 'option', name='list.drilldown').text = 'none'
 	ET.SubElement(panelevent, 'option', name='list.wrap').text = '1'
