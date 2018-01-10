@@ -9,9 +9,9 @@
 | eval parent = case("$parent$"==":none:", null(), "$type$"=="search", mvindex(split("$parent$", " :: "), 1), true(),"$parent$")
 | eval section = if("$type$"=="search", mvindex(split("$parent$", " :: "), 0), null())
 | eval search = "$search$"
-| eval display = case(type=="section" OR type=="subsection", null(), true(), $display$) 
+| eval display = case(type=="section" OR type=="subsection", null(), true(), "$display$") 
 | eval notes = "$notes$"
-| eval date_added = strftime(now(), "%s")
+| eval date_added = case(type=="section" OR type=="subsection", null(), true(), strftime(now(), "%s"))
 ]
 | table name,type,parent,search,section,display,notes,date_added
 | sort type section parent name

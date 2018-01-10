@@ -107,6 +107,7 @@ class GenerateDashboards(GeneratingCommand):
         	    dashboard_generate(
                         row['name'],
                         row['search'], 
+                        row['display'], 
                         filename, 
                         dashboard_notes=row['notes']
                         )
@@ -114,6 +115,7 @@ class GenerateDashboards(GeneratingCommand):
         	    dashboard_generate(
                         row['name'], 
                         row['search'], 
+                        row['display'], 
                         filename
                         )
                 n += 1
