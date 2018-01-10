@@ -154,8 +154,12 @@ class DashboardGenerate(object):
 	    else:
 	        paneltablesearch = ET.SubElement(paneltable, 'search', id=search_id)
 	        ET.SubElement(paneltablesearch, 'query').text = search
-	        ET.SubElement(paneltablesearch, 'earliest').text = earliest
-	        ET.SubElement(paneltablesearch, 'latest').text = latest
+	        if time_picker:
+	            ET.SubElement(paneleventsearch, 'earliest').text = '$time.earliest$'
+	            ET.SubElement(paneleventsearch, 'latest').text = '$time.latest$'
+                else:
+	            ET.SubElement(paneleventsearch, 'earliest').text = earliest
+	            ET.SubElement(paneleventsearch, 'latest').text = latest
 	else:
             if base_search:
 	        paneltablesearch = ET.SubElement(paneltable, 'search', base=base_search)
@@ -163,8 +167,12 @@ class DashboardGenerate(object):
 	    else:
 	        paneltablesearch = ET.SubElement(paneltable, 'search')
 	        ET.SubElement(paneltablesearch, 'query').text = search
-	        ET.SubElement(paneltablesearch, 'earliest').text = earliest
-	        ET.SubElement(paneltablesearch, 'latest').text = latest
+	        if time_picker:
+	            ET.SubElement(paneleventsearch, 'earliest').text = '$time.earliest$'
+	            ET.SubElement(paneleventsearch, 'latest').text = '$time.latest$'
+                else:
+	            ET.SubElement(paneleventsearch, 'earliest').text = earliest
+	            ET.SubElement(paneleventsearch, 'latest').text = latest
 	if row_count:
 	    ET.SubElement(paneltable, 'option', name='count').text = row_count
 	ET.SubElement(paneltable, 'option', name='dataOverlayMode').text = 'none'
