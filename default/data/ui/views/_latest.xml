@@ -5,7 +5,11 @@
       <title>Click to go to search</title>
       <table>
         <search>
-          <query>| inputlookup search_catalog | where isnotnull(search) | sort -date_added | head 20
+          <query>
+| inputlookup search_catalog 
+| where search!=""
+| sort -date_added 
+| head 20
 |table section parent name</query>
         </search>
         <option name="count">20</option>
