@@ -40,6 +40,14 @@ class GenerateDashboards(GeneratingCommand):
             text = 'Test Mode'
             yield {'_raw': text}
             sys.exit()
+        
+        #make directories if they don't exist
+        nav_dir = os.path.dirname(self.NAV_FILE)
+        if not os.path.exists(nav_dir):
+            os.makedirs(nav_dir)
+        views_dir = self.DASHBOARD_PATH
+        if not os.path.exists(views_dir):
+            os.makedirs(views_dir)
 
         #remove old dashboards
         file_list = os.listdir(self.DASHBOARD_PATH)

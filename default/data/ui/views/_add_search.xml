@@ -10,7 +10,7 @@
 | eval section = if("$type$"=="search", mvindex(split("$parent$", " :: "), 0), null())
 | eval search = "$search$"
 | eval display = case(type=="section" OR type=="subsection", null(), true(), $display$) 
-| eval notes = $notes$
+| eval notes = "$notes$"
 | eval date_added = strftime(now(), "%s")
 ]
 | table name,type,parent,search,section,display,notes,date_added
@@ -45,6 +45,7 @@
     </input>
     <input searchWhenChanged="false" type="text" token="search">
       <label>Search</label>
+      <default></default>
     </input>
     <input type="radio" token="display">
       <label>Results Type</label>
@@ -55,7 +56,7 @@
     </input>
     <input searchWhenChanged="false" type="text" token="notes">
       <label>Notes</label>
-      <default>""</default>
+      <default></default>
     </input>
   </fieldset>
   <row>
