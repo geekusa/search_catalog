@@ -96,7 +96,7 @@ class GenerateDashboards(GeneratingCommand):
                         label=row['name']
                         )
             else:
-                xname = re.sub(' ', '_', row['name'].lower())
+                xname = re.sub('[ \.]', '_', row['name'].lower())
                 if row['parent'] == row['section']:
                     parent_name = row['parent']
                 else:

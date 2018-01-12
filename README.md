@@ -6,7 +6,7 @@ Available at:
 
 [Github](https://github.com/geekusa/search_catalog)
 
-Version: 1.0.1
+Version: 1.0.2
 
 ## Description and Use-cases
 
@@ -33,4 +33,4 @@ Support will be provided through Splunkbase (click on Contact Developer) or Splu
 This README file constitutes the documenation for the app and will be kept upto date on [Github](https://github.com/geekusa/search_catalog/blob/master/README.md) as well as on the Splunkbase page.
 
 ### Release Notes
-Modifications for Splunk app certification. Moved search_catalog.csv example file to its own directory called samples.
+Minor fix to dashboard titles with period in them.
