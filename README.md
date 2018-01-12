@@ -10,9 +10,9 @@ Version: 1.01
 
 ## Description and Use-cases
 
-Ever needed a centralized location to direct users to so they can find what they need? Example: What special index do we store our firewall data? This app provides a simple interface for both administrators (to catalog data locations) and users (to find the data they need).
+Have you ever wanted a centralized location to direct users to so they can find what they need? Example: What special index do we store our firewall data? This app provides a simple interface for both administrators (to catalog data locations) and users (to find the data they need).
 
-Depending on how Splunk is managed, finding data for a new (or even experienced) user can be challenging. The primary use-case of this app is for a Splunk adminstrator to be able to easily catalog (using a CSV file) where specific types of data (that an end user may have interest in) would be found on the given system and provide the end user the interface to quickly find this data (using Splunk’s built in menu system). Even though there exists the CIM, not all data is CIM compatible, nor is a user necessarily familiar with CIM. This can be especially helpful as new data types become available in Splunk that are not complying with CIM.
+Depending on how Splunk is managed, finding data for a new (or even experienced) user can be challenging. The primary use-case of this app is for a Splunk adminstrator to be able to easily catalog (using a CSV file) where specific types of data (that an end user may have interest in) would be found on the given system and provide the end user an interface to quickly find this data (using Splunk’s built in menu system). Even though there exists the CIM, not all data is CIM compatible, nor is a user necessarily familiar with CIM. This can be especially helpful as new data types become available in Splunk that are not complying with CIM.
 
 ## How to use
 
