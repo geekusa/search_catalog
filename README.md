@@ -6,7 +6,7 @@ Available at:
 
 [Github](https://github.com/geekusa/search_catalog)
 
-Version: 1.0
+Version: 1.01
 
 ## Description and Use-cases
 
@@ -18,7 +18,7 @@ Depending on how Splunk is managed, finding data for a new (or even experienced)
 
 ### Adminstrator
 
-The app comes with an example CSV lookup file with sections, subsections and searches that should be universal. Using the built-in dashboard to add searches, an administrator can fill the catalog with the necessary content for the users. The CSV can also be edited directly or the app contains links to open the file in the Lookup File Editor app (https://splunkbase.splunk.com/app/1724/), especially useful if searches need to be deleted. While it is not required, it is recommended to fill out the Notes section of each search so that both the generated dashboard will give some helpful context and a user may find the search based on keywords in the notes (using the search dashboard called “Not Sure Where to Look?"). The administrator should either copy the example CSV to be named "search_catalog.csv" or use the add searches dashboard to create the file. 
+The app comes with an example CSV lookup file with sections, subsections and searches that should be universal. Using the built-in dashboard to add searches, an administrator can fill the catalog with the necessary content for the users. The CSV can also be edited directly or the app contains links to open the file in the Lookup File Editor app (https://splunkbase.splunk.com/app/1724/), especially useful if searches need to be deleted. While it is not required, it is recommended to fill out the Notes section of each search so that both the generated dashboard will give some helpful context and a user may find the search based on keywords in the notes (using the search dashboard called “Not Sure Where to Look?"). The administrator should either copy the example CSV found in the samples directory to the lookups directory or use the add searches dashboard to create the file. 
 
 Once the lookup/CSV file has been populated with searches, the app has a custom command to generate menus and dashboards based on the searches given (“Generate Dashboards”). Each search is given it’s own dashboard with notes, events, and some basic info and statistics of it’s primary fields. There are also links to open the search up in the normal search window (in the regular Search app not the Search Catalog) from the dashboard as well as a time range picker. 
 
@@ -31,3 +31,6 @@ Support will be provided through Splunkbase (click on Contact Developer) or Splu
 
 ### Documentation
 This README file constitutes the documenation for the app and will be kept upto date on [Github](https://github.com/geekusa/search_catalog/blob/master/README.md) as well as on the Splunkbase page.
+
+### Release Notes
+Modifications for Splunk app certification. Moved search_catalog.csv example file to its own directory called samples.
