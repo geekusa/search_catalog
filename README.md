@@ -33,4 +33,4 @@ Support will be provided through Splunkbase (click on Contact Developer) or Splu
 This README file constitutes the documenation for the app and will be kept upto date on [Github](https://github.com/geekusa/search_catalog/blob/master/README.md) as well as on the Splunkbase page.
 
 ### Release Notes
-Minor fix to dashboard titles with period in them. Fix export of lookup so lookup editor app works. Fix welcome screen to count sections without subsections.
+Minor fix to dashboard titles with period in them. Fix export of lookup so lookup editor app works. Fix welcome screen to count sections without subsections. Fixed link to Lookup File Editor app.

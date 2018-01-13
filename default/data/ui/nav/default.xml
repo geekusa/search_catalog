@@ -9,7 +9,7 @@
     <view name="search"/>
   </collection>
   <collection label="Config">
-    <a href="/app/lookup_editor/lookup_edit?owner=nobody&amp;namespace=search_catalog&amp;lookup=search_catalog.csv&amp;type=csv">Edit CSV (Requires Lookup Editor App)</a>
+    <a href="/app/lookup_editor/lookup_edit?owner=nobody&amp;path=search_catalog&amp;/search_catalog.csv">Edit CSV (Requires Lookup Editor App)</a>
     <view name="_add_search"/>
     <view name="_refresh"/>
   </collection>

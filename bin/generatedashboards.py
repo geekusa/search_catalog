@@ -68,7 +68,8 @@ class GenerateDashboards(GeneratingCommand):
         #disabling this option for now
         #ET.SubElement(config, "view", name="_edit")
         ET.SubElement(config, "a", 
-            href="/app/lookup_editor/lookup_edit?owner=nobody&namespace=search_catalog&lookup=search_catalog.csv&type=csv"). \
+            #href="/app/lookup_editor/lookup_edit?owner=nobody&namespace=search_catalog&lookup=search_catalog.csv&type=csv"). \
+            href="/app/lookup_editor/lookup_edit?owner=nobody&path=search_catalog/search_catalog.csv"). \
             text = "Edit CSV (Requires Lookup Editor App)"
         ET.SubElement(config, "view", name="_add_search")
         ET.SubElement(config, "view", name="_refresh")
