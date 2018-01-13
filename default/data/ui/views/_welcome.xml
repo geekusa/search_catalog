@@ -30,8 +30,11 @@
       <title>Breakdown of available searches by section</title>
       <table>
         <search>
-          <query>|inputlookup search_catalog
+          <query>
+|inputlookup search_catalog
+|eval parent = if(isnull(parent), ":none:", parent)
 |stats count by section parent
+|eval parent = if(parent == ":none:", null(), parent)
 |stats dc(parent) AS subsections sum(count) AS searches BY section</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
