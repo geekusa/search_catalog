@@ -40,6 +40,7 @@
           <latest>now</latest>
         </search>
         <option name="drilldown">none</option>
+        <option name="count">50</option>
         <format type="color" field="searches">
           <colorPalette type="minMidMax" maxColor="#0ED3A6" minColor="#FFFFFF"></colorPalette>
           <scale type="minMidMax"></scale>
