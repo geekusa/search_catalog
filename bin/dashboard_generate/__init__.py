@@ -210,6 +210,7 @@ class DashboardGenerate(object):
 	    ET.SubElement(panelinputdefault, 'latest').text = latest
 	panelevent = ET.SubElement(panel, 'event')
 	if search_id:
+	    search += '|table *'
 	    paneleventsearch = ET.SubElement(panelevent, 'search', id=search_id)
 	    ET.SubElement(paneleventsearch, 'query').text = search
 	    if time_picker:
