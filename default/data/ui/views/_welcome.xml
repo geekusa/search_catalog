@@ -1,9 +1,7 @@
 <dashboard hideEdit="true">
   <label>Welcome</label>
-  <search>
-    <query>| inputlookup search_catalog
-| where isnotnull(search)
-| stats count</query>
+  <search base="base_search">
+    <query>| stats sum(searches) AS count</query>
     <done>
       <condition>
         <set token="total_searches">$result.count$</set>
@@ -29,7 +27,7 @@
     <panel>
       <title>Breakdown of available searches by section</title>
       <table>
-        <search>
+        <search id="base_search">
           <query>
 |inputlookup search_catalog
 |eval parent = if(isnull(parent), ":none:", parent)
