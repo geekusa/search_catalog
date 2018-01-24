@@ -1,0 +1,32 @@
+<form hideEdit="true">
+  <label>Add Field Filter (Append Only)</label>
+  <description>Used to filter out fields from "Most Populated Fields" panel, recommend adding "date_*".</description>
+  <search id="add">
+    <query>| inputlookup most_populated_filter
+| append [
+| makeresults
+| eval field = "$field$"
+]
+| table field
+| sort field
+| outputlookup most_populated_filter</query>
+  </search>
+  <fieldset submitButton="true">
+    <input searchWhenChanged="false" type="text" token="field">
+      <label>Field to Remove</label>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search base="add">
+          <query>
+| table field
+          </query>
+        </search>
+        <option name="count">100</option>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</form>

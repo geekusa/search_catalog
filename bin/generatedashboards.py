@@ -75,6 +75,11 @@ class GenerateDashboards(GeneratingCommand):
             text = "Edit CSV (Requires Lookup Editor App)"
         ET.SubElement(config, "view", name="_add_search")
         ET.SubElement(config, "view", name="_refresh")
+	mp_filter = ET.SubElement(config, "collection", label="Most Populated Filter")
+        ET.SubElement(mp_filter, "a",
+            href="/app/lookup_editor/lookup_edit?owner=nobody&namespace=search_catalog&lookup=most_populated_filter.csv&type=csv"). \
+            text = "Edit CSV (Requires Lookup Editor App)"
+        ET.SubElement(mp_filter, "view", name="_mpfilter")
         ET.SubElement(search, "view", name="_search")
         ET.SubElement(search, "view", name="_latest")
         ET.SubElement(search, "view", name="search")
