@@ -104,7 +104,7 @@ class GenerateDashboards(GeneratingCommand):
                     parent_name = row['parent']
                 else:
                     parent_name = row['parent'] + row['section']
-                mod_parent_name = re.sub('\W', '_', mod_parent_name.lower())
+                mod_parent_name = re.sub('\W', '_', parent_name.lower())
 		xname = mod_parent_name + '__' + xname
                 ET.SubElement(collection_dict[parent_name], "view", name=xname)
         	filename = os.path.join(self.DASHBOARD_PATH, xname)
