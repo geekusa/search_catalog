@@ -6,7 +6,7 @@ Available at:
 
 [Github](https://github.com/geekusa/search_catalog)
 
-Version: 1.0.5
+Version: 1.1.0
 
 ## Description and Use-cases
 
