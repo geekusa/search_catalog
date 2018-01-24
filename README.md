@@ -22,6 +22,8 @@ The app comes with an example CSV lookup file with sections, subsections and sea
 
 Once the lookup/CSV file has been populated with searches, the app has a custom command to generate menus and dashboards based on the searches given (“Generate Dashboards”). Each search is given it’s own dashboard with notes, events, and some basic info and statistics of it’s primary fields. There are also links to open the search up in the normal search window (in the regular Search app not the Search Catalog) from the dashboard as well as a time range picker. 
 
+Each generated dashboard includes a panel titled “Most Populated Fields”. If an admin wants to filter specific fields out of this (i.e. date\_\*) the most\_populated\_filter.csv file must be created and filled. Similar to the search\_catalog.csv the app contains an example most\_populated\_filter.csv, and again the administrator should either copy the example CSV found in the samples directory to the lookups directory or use the add searches dashboard to create the file.
+
 ### End User
 
 From the Welcome screen a user is introduced to the number of searches that exist in the search catalog along with an idea of how those searches are dispersed. The user is given instructions to browse through the Search Catalog’s menus, search or see what are the latest searches that have been added. 
@@ -33,4 +35,4 @@ Support will be provided through Splunkbase (click on Contact Developer) or Splu
 This README file constitutes the documenation for the app and will be kept upto date on [Github](https://github.com/geekusa/search_catalog/blob/master/README.md) as well as on the Splunkbase page.
 
 ### Release Notes
-Minor fix to welcome screen. Added most\_populated\_filter.csv to act as place to drop in fields to not include in the Most Populated Fields panel. Fixed opening result count. Update to dashboard filenames to allow generated dashboards to have the same basename and punctuation.
+Minor fix to welcome screen. Added most\_populated\_filter to act as place to drop in fields to not include in the Most Populated Fields panel. Fixed opening result count. Update to dashboard filenames to allow generated dashboards to have the same basename and punctuation.
