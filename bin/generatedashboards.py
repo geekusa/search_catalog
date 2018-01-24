@@ -99,12 +99,13 @@ class GenerateDashboards(GeneratingCommand):
                         label=row['name']
                         )
             else:
-                xname = re.sub('[ \.]', '_', row['name'].lower())
+                xname = re.sub('\W', '_', row['name'].lower())
                 if row['parent'] == row['section']:
                     parent_name = row['parent']
                 else:
                     parent_name = row['parent'] + row['section']
-		xname = parent_name + '__' + xname
+                mod_parent_name = re.sub('\W', '_', mod_parent_name.lower())
+		xname = mod_parent_name + '__' + xname
                 ET.SubElement(collection_dict[parent_name], "view", name=xname)
         	filename = os.path.join(self.DASHBOARD_PATH, xname)
                 if row['notes']:

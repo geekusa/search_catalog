@@ -33,4 +33,4 @@ Support will be provided through Splunkbase (click on Contact Developer) or Splu
 This README file constitutes the documenation for the app and will be kept upto date on [Github](https://github.com/geekusa/search_catalog/blob/master/README.md) as well as on the Splunkbase page.
 
 ### Release Notes
-Minor fix to welcome screen. Added most\_populated\_filter.csv to act as place to drop in fields to not include in the Most Populated Fields panel. Fixed opening result count. Update to dashboard filenames to allow generated dashboards to have the same basename.
+Minor fix to welcome screen. Added most\_populated\_filter.csv to act as place to drop in fields to not include in the Most Populated Fields panel. Fixed opening result count. Update to dashboard filenames to allow generated dashboards to have the same basename and punctuation.
