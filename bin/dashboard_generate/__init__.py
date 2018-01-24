@@ -12,7 +12,7 @@ def dashboard_generate(label, main_search, display, filename=False, dashboard_no
         pretty.add_notes_panel(2,main_search, notes=dashboard_notes)
     else:
         pretty.add_notes_panel(2,main_search)
-    pretty.add_chart_panel(3, '| sort -distinct_count | head 5 | table field distinct_count', title='Most Populated Fields', base_search='sub_search', height='137')
+    pretty.add_chart_panel(3, '| search NOT [| inputlookup most_populated_filter | format ] | sort -distinct_count | head 5 | table field distinct_count', title='Most Populated Fields', base_search='sub_search', height='137')
     table_color_dict = {
         'count': 
 	    { 'colorPalette':
