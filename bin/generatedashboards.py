@@ -104,6 +104,7 @@ class GenerateDashboards(GeneratingCommand):
                     parent_name = row['parent']
                 else:
                     parent_name = row['parent'] + row['section']
+		xname = parent_name + '__' + xname
                 ET.SubElement(collection_dict[parent_name], "view", name=xname)
         	filename = os.path.join(self.DASHBOARD_PATH, xname)
                 if row['notes']:
