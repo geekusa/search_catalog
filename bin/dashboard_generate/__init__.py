@@ -6,7 +6,7 @@ import xml.dom.minidom
 
 def dashboard_generate(label, main_search, display, filename=False, dashboard_notes=False): 
     pretty = DashboardGenerate('form', label)
-    pretty.add_base_search(search='|fieldsummary |table field distinct_count values', search_id='sub_search', base_search='base_search')
+    pretty.add_base_search(search='|fieldsummary maxvals=0 |table field distinct_count values', search_id='sub_search', base_search='base_search')
     pretty.add_row(3)
     if dashboard_notes:
         pretty.add_notes_panel(2,main_search, notes=dashboard_notes)

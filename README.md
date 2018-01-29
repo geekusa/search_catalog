@@ -6,7 +6,7 @@ Available at:
 
 [Github](https://github.com/geekusa/search_catalog)
 
-Version: 1.1.0
+Version: 1.1.1
 
 ## Description and Use-cases
 
@@ -35,4 +35,4 @@ Support will be provided through Splunkbase (click on Contact Developer) or Splu
 This README file constitutes the documenation for the app and will be kept upto date on [Github](https://github.com/geekusa/search_catalog/blob/master/README.md) as well as on the Splunkbase page.
 
 ### Release Notes
-Minor fix to welcome screen. Added most\_populated\_filter to act as place to drop in fields to not include in the Most Populated Fields panel. Fixed opening result count. Update to dashboard filenames to allow generated dashboards to have the same basename and punctuation.
+Fixed Most Populated Fields panel to not max out on quantity of distinct values.
