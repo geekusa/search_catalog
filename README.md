@@ -35,4 +35,4 @@ Support will be provided through Splunkbase (click on Contact Developer) or Splu
 This README file constitutes the documenation for the app and will be kept upto date on [Github](https://github.com/geekusa/search_catalog/blob/master/README.md) as well as on the Splunkbase page.
 
 ### Release Notes
-Fixed Most Populated Fields panel to not max out on quantity of distinct values.
+Fixed Most Populated Fields panel to not max out on quantity of distinct values. Fixed naming scheme for dashboard to seperate correctly. Fixed "Not Sure Where to Look?" and "Most Recent Added Searches" dashboards as they were not creating correct links to dashboards anymore. 

@@ -97,7 +97,7 @@ class GenerateDashboards(GeneratingCommand):
                         label=row['name']
                         )
                 if row['type'] == 'subsection':
-                    subsection_name = row['name'] + row['parent']
+                    subsection_name = row['parent'] + '_' + row['name']
                     collection_dict[subsection_name] = ET.SubElement(
                         collection_dict[row['parent']], 
                         "collection", 
@@ -105,10 +105,10 @@ class GenerateDashboards(GeneratingCommand):
                         )
             else:
                 xname = re.sub('\W', '_', row['name'].lower())
-                if row['parent'] == row['section']:
-                    parent_name = row['parent']
+                if not row['parent']:
+                    parent_name = row['section']
                 else:
-                    parent_name = row['parent'] + row['section']
+                    parent_name = row['section'] + '_' + row['parent']
                 mod_parent_name = re.sub('\W', '_', parent_name.lower())
 		xname = mod_parent_name + '__' + xname
                 ET.SubElement(collection_dict[parent_name], "view", name=xname)

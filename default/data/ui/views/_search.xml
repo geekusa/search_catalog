@@ -10,17 +10,26 @@
       <title>Possibly look here (click to go to search):</title>
       <table>
         <search>
-          <query>| inputlookup search_catalog | where isnotnull(search) | search name="*$text_search$*" OR parent="*$text_search$*" OR search="*$text_search$*" OR section="*$text_search$*" OR notes="*$text_search$*"
-|table section parent name</query>
+          <query>
+| inputlookup search_catalog 
+| where isnotnull(search) 
+| search name="*$text_search$*" OR parent="*$text_search$*" OR search="*$text_search$*" OR section="*$text_search$*" OR notes="*$text_search$*"
+| table section parent name
+| eval dashboard_target = if(isnull(parent),
+      replace(lower(section."__".name), " ", "_"),
+      replace(lower(section."_".parent."__".name), " ", "_")
+      )
+| rex mode=sed field=dashboard_target "s/\W/_/g"
+          </query>
         </search>
         <option name="drilldown">row</option>
+        <fields>section parent name</fields>
         <format type="color" field="section">
           <colorPalette type="sharedList"></colorPalette>
           <scale type="sharedCategory"></scale>
         </format>
         <drilldown>
-          <eval token="dashboard_target">replace(lower($row.name$), " ", "_")</eval>
-          <link target="_blank">$dashboard_target$</link>
+          <link target="_blank">$row.dashboard_target$</link>
         </drilldown>
       </table>
     </panel>
