@@ -85,58 +85,58 @@ class GenerateDashboards(GeneratingCommand):
         ET.SubElement(search, "view", name="search")
         
         #iterate over CSV and create sub menus
-        input_file = csv.DictReader(open(self.LOOKUP_FILE))
         collection_dict = {}
         n = 0
-        for row in input_file:
-            if row['type']:
-                if row['type'] == 'section':
-                    collection_dict[row['name']] = ET.SubElement(
-                        catalog, 
-                        "collection", 
-                        label=row['name']
-                        )
-                if row['type'] == 'subsection':
-                    subsection_name = row['parent'] + '_' + row['name']
-                    collection_dict[subsection_name] = ET.SubElement(
-                        collection_dict[row['parent']], 
-                        "collection", 
-                        label=row['name']
-                        )
-            else:
-                xname = re.sub('\W', '_', row['name'].lower())
-                if not row['parent']:
-                    parent_name = row['section']
+        with open(self.LOOKUP_FILE) as csv_file:
+            input_file = csv.DictReader(csv_file)
+            for row in input_file:
+                if row['type']:
+                    if row['type'] == 'section':
+                        collection_dict[row['name']] = ET.SubElement(
+                            catalog, 
+                            "collection", 
+                            label=row['name']
+                            )
+                    if row['type'] == 'subsection':
+                        subsection_name = row['parent'] + '_' + row['name']
+                        collection_dict[subsection_name] = ET.SubElement(
+                            collection_dict[row['parent']], 
+                            "collection", 
+                            label=row['name']
+                            )
                 else:
-                    parent_name = row['section'] + '_' + row['parent']
-                mod_parent_name = re.sub('\W', '_', parent_name.lower())
-		xname = mod_parent_name + '__' + xname
-                ET.SubElement(collection_dict[parent_name], "view", name=xname)
-        	filename = os.path.join(self.DASHBOARD_PATH, xname)
-                if row['notes']:
-        	    dashboard_generate(
-                        row['name'],
-                        row['search'], 
-                        row['display'], 
-                        filename, 
-                        dashboard_notes=row['notes']
-                        )
-                else:
-        	    dashboard_generate(
-                        row['name'], 
-                        row['search'], 
-                        row['display'], 
-                        filename
-                        )
-                n += 1
+                    xname = re.sub('\W', '_', row['name'].lower())
+                    if not row['parent']:
+                        parent_name = row['section']
+                    else:
+                        parent_name = row['section'] + '_' + row['parent']
+                    mod_parent_name = re.sub('\W', '_', parent_name.lower())
+    		    xname = mod_parent_name + '__' + xname
+                    ET.SubElement(collection_dict[parent_name], "view", name=xname)
+            	    filename = os.path.join(self.DASHBOARD_PATH, xname)
+                    if row['notes']:
+            	        dashboard_generate(
+                            row['name'],
+                            row['search'], 
+                            row['display'], 
+                            filename, 
+                            dashboard_notes=row['notes']
+                            )
+                    else:
+            	        dashboard_generate(
+                            row['name'], 
+                            row['search'], 
+                            row['display'], 
+                            filename
+                            )
+                    n += 1
 
         #write menu to nav file
         xml_string = ET.tostring(root)
         xml_output = xml.dom.minidom.parseString(xml_string)
         pretty_xml_as_string = xml_output.toprettyxml(indent="  ")
-        f = open(self.NAV_FILE, 'w')
-        f.write(pretty_xml_as_string)
-        f.close
+        with open(self.NAV_FILE, 'w') as f:
+            f.write(pretty_xml_as_string)
 
         #Display output of results to Splunk
         text = '%d Dasbhoards Generated' % n
