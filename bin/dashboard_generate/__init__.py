@@ -305,6 +305,7 @@ class DashboardGenerate(object):
         """
 	Generate a table panel. Provide the row_number and search.
 	"""
+	search = re.sub('\$', '$$', search)
         panel = ET.SubElement(self.root[row_num], 'panel')
 	if title:
 	    ET.SubElement(panel, 'title').text = title
@@ -424,6 +425,7 @@ class DashboardGenerate(object):
         """
 	Generate events panel. Provide the row_number and search.
 	"""
+	search = re.sub('\$', '$$', search)
         panel = ET.SubElement(self.root[row_num], 'panel')
 	if title:
 	    ET.SubElement(panel, 'title').text = title

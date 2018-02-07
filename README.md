@@ -6,7 +6,7 @@ Available at:
 
 [Github](https://github.com/geekusa/search_catalog)
 
-Version: 1.1.2
+Version: 1.1.3
 
 ## Description and Use-cases
 
@@ -35,4 +35,4 @@ Support will be provided through Splunkbase (click on Contact Developer) or Splu
 This README file constitutes the documenation for the app and will be kept upto date on [Github](https://github.com/geekusa/search_catalog/blob/master/README.md) as well as on the Splunkbase page.
 
 ### Release Notes
-Minor update for Splunk Certification requirement and code formatting updates. Fix searching to not return folders.
+Minor fix to allow field substitution from the map command (i.e. $fieldname$).
