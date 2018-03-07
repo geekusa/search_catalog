@@ -35,4 +35,4 @@ Support will be provided through Splunkbase (click on Contact Developer) or Splu
 This README file constitutes the documenation for the app and will be kept upto date on [Github](https://github.com/geekusa/search_catalog/blob/master/README.md) as well as on the Splunkbase page.
 
 ### Release Notes
-Minor fix to allow field substitution from the map command (i.e. $fieldname$).
+Minor fix to allow field substitution from the map command (i.e. $fieldname$). Fix event code on failed logon example.
