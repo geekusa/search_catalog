@@ -1,23 +1,19 @@
-.btn-primary {
-    background-image: linear-gradient(180deg,#0ED3A6,#0ED3A6);
-    border-color: #0ED3A6;
-    border: 1px solid #0ED3A6;
-    background-color: #0ED3A6;
- }
-
-.btn-primary.active,
-.btn-primary:hover {
-    background-image: linear-gradient(180deg,#68E4C7,#68E4C7);
-    border-color: #68E4C7;
-    border: 1px solid #68E4C7;
-    background-color: #68E4C7;
- }
-div.view---pages-enterprise---7-1-0---1zrJY {
+/*change top bar color*/
+[data-view="views/shared/appbar/AppNav"] {
     background-color: #0ED3A6;
 }
-a.viewEnterprise---pages-enterprise---7-1-0---2Xt56 {
-    color: #D8E6E2;
+[data-view="views/shared/appbar/AppLabel"] {
+    background-color: #0ED3A6;
 }
-div.underline---pages-enterprise---7-1-0---bxeh0 {
-    background-color: #ECF4F2 !important;
+/*change unhighlighted text on the bar color*/
+[data-role="app-nav-container"] [data-role="label"] {
+    color: #E3FEF7;
+}
+/*change color of underline and text of current tab*/
+[data-role="underline"] {
+    /*background-color: #F3E3EB !important;*/
+    background-color: #FFFFFF !important;
+}
+[data-role="app-nav-container"] [data-active="active"] [data-role="label"] {
+    color: #FFFFFF;
 }
