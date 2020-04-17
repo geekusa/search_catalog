@@ -7,27 +7,22 @@ import xml.etree.cElementTree as ET
 import xml.dom.minidom
 
 from dashboard_generate import *
+from splunklib.searchcommands import dispatch, GeneratingCommand, Configuration, Option, validators
 
-from splunklib.searchcommands import dispatch, \
-                                     GeneratingCommand, \
-                                     Configuration, \
-                                     Option, \
-                                     validators
-from splunk.appserver.mrsparkle.lib.util import make_splunkhome_path
 
 ################################################################################
-@Configuration()
+@Configuration(type='reporting')
 class GenerateDashboards(GeneratingCommand):
     #contants
-    BASE_DIR = make_splunkhome_path(["etc","apps","search_catalog"])
-    DASHBOARD_PATH = os.path.join(BASE_DIR,'local','data','ui','views')
-    NAV_FILE = os.path.join(BASE_DIR,'local','data','ui','nav','default.xml')
-    LOOKUP_FILE = os.path.join(BASE_DIR,'lookups','search_catalog.csv')
+    BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+    DASHBOARD_PATH = os.path.join(BASE_DIR,'..','local','data','ui','views')
+    NAV_FILE = os.path.join(BASE_DIR,'..','local','data','ui','nav','default.xml')
+    LOOKUP_FILE = os.path.join(BASE_DIR,'..','lookups','search_catalog.csv')
 
     testmode = Option(
         doc='''**Syntax:** **testmode=***<boolean>*
         **Description:** Used to stop the command from running on dashboards''',
-        ) 	
+        )
 
     def generate(self):
 
@@ -68,14 +63,14 @@ class GenerateDashboards(GeneratingCommand):
         #disabling this option for now
         #ET.SubElement(config, "view", name="_edit")
         ET.SubElement(config, "a", 
-	    #older version of lookup file editor app v1.x
+            #older version of lookup file editor app v1.x
             #href="/app/lookup_editor/lookup_edit?owner=nobody&path=search_catalog/search_catalog.csv"). \
             #newever version of lookup file editor app 2.x
             href="/app/lookup_editor/lookup_edit?owner=nobody&namespace=search_catalog&lookup=search_catalog.csv&type=csv"). \
             text = "Edit CSV (Requires Lookup Editor App)"
         ET.SubElement(config, "view", name="_add_search")
         ET.SubElement(config, "view", name="_refresh")
-	mp_filter = ET.SubElement(config, "collection", label="Most Populated Filter")
+        mp_filter = ET.SubElement(config, "collection", label="Most Populated Filter")
         ET.SubElement(mp_filter, "a",
             href="/app/lookup_editor/lookup_edit?owner=nobody&namespace=search_catalog&lookup=most_populated_filter.csv&type=csv"). \
             text = "Edit CSV (Requires Lookup Editor App)"
@@ -111,11 +106,11 @@ class GenerateDashboards(GeneratingCommand):
                     else:
                         parent_name = row['section'] + '_' + row['parent']
                     mod_parent_name = re.sub('\W', '_', parent_name.lower())
-    		    xname = mod_parent_name + '__' + xname
+                    xname = mod_parent_name + '__' + xname
                     ET.SubElement(collection_dict[parent_name], "view", name=xname)
-            	    filename = os.path.join(self.DASHBOARD_PATH, xname)
+                    filename = os.path.join(self.DASHBOARD_PATH, xname)
                     if row['notes']:
-            	        dashboard_generate(
+                        dashboard_generate(
                             row['name'],
                             row['search'], 
                             row['display'], 
@@ -123,7 +118,7 @@ class GenerateDashboards(GeneratingCommand):
                             dashboard_notes=row['notes']
                             )
                     else:
-            	        dashboard_generate(
+                        dashboard_generate(
                             row['name'], 
                             row['search'], 
                             row['display'], 
