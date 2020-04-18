@@ -35,4 +35,4 @@ Support will be provided through Splunkbase (click on Contact Developer) or Splu
 This README file constitutes the documenation for the app and will be kept upto date on [Github](https://github.com/geekusa/search_catalog/blob/master/README.md) as well as on the Splunkbase page.
 
 ### Release Notes
-Updated CSS for colors on nav bar. Updated Python 2 and 3 compatability. 
+Updated CSS for colors on nav bar. Updated Python 2 and 3 compatability. Updated to latest splunklib. Added new ability to add a link from the config file (instead of generating a dashboard), adds the link in the navigation.

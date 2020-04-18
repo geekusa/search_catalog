@@ -66,13 +66,15 @@ class GenerateDashboards(GeneratingCommand):
             #older version of lookup file editor app v1.x
             #href="/app/lookup_editor/lookup_edit?owner=nobody&path=search_catalog/search_catalog.csv"). \
             #newever version of lookup file editor app 2.x
-            href="/app/lookup_editor/lookup_edit?owner=nobody&namespace=search_catalog&lookup=search_catalog.csv&type=csv"). \
+            href="/app/lookup_editor/lookup_edit?owner=nobody&namespace=search_catalog&lookup=search_catalog.csv&type=csv", \
+            target="_blank"). \
             text = "Edit CSV (Requires Lookup Editor App)"
         ET.SubElement(config, "view", name="_add_search")
         ET.SubElement(config, "view", name="_refresh")
         mp_filter = ET.SubElement(config, "collection", label="Most Populated Filter")
         ET.SubElement(mp_filter, "a",
-            href="/app/lookup_editor/lookup_edit?owner=nobody&namespace=search_catalog&lookup=most_populated_filter.csv&type=csv"). \
+            href="/app/lookup_editor/lookup_edit?owner=nobody&namespace=search_catalog&lookup=most_populated_filter.csv&type=csv", \
+            target="_blank"). \
             text = "Edit CSV (Requires Lookup Editor App)"
         ET.SubElement(mp_filter, "view", name="_mpfilter")
         ET.SubElement(search, "view", name="_search")
@@ -107,24 +109,30 @@ class GenerateDashboards(GeneratingCommand):
                         parent_name = row['section'] + '_' + row['parent']
                     mod_parent_name = re.sub('\W', '_', parent_name.lower())
                     xname = mod_parent_name + '__' + xname
-                    ET.SubElement(collection_dict[parent_name], "view", name=xname)
-                    filename = os.path.join(self.DASHBOARD_PATH, xname)
-                    if row['notes']:
-                        dashboard_generate(
-                            row['name'],
-                            row['search'], 
-                            row['display'], 
-                            filename, 
-                            dashboard_notes=row['notes']
-                            )
+                    if row['display'] == 'link':
+                        ET.SubElement(collection_dict[parent_name], "a", 
+                            href=row['link'], \
+                            target='_blank'). \
+                            text = row['name']
                     else:
-                        dashboard_generate(
-                            row['name'], 
-                            row['search'], 
-                            row['display'], 
-                            filename
-                            )
-                    n += 1
+                        ET.SubElement(collection_dict[parent_name], "view", name=xname)
+                        filename = os.path.join(self.DASHBOARD_PATH, xname)
+                        if row['notes']:
+                            dashboard_generate(
+                                row['name'],
+                                row['search'], 
+                                row['display'], 
+                                filename, 
+                                dashboard_notes=row['notes']
+                                )
+                        else:
+                            dashboard_generate(
+                                row['name'], 
+                                row['search'], 
+                                row['display'], 
+                                filename
+                                )
+                        n += 1
 
         #write menu to nav file
         xml_string = ET.tostring(root)
