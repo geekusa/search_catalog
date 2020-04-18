@@ -6,14 +6,15 @@
 | makeresults
 | eval name = "$name$"
 | eval type = case("$type$"=="section", "section", "$type$"=="subsection", "subsection", true(), null())
-| eval parent = case("$parent$"==":none:", null(), "$type$"=="search", mvindex(split("$parent$", " :: "), 1), true(),"$parent$")
-| eval section = if("$type$"=="search", mvindex(split("$parent$", " :: "), 0), null())
-| eval search = "$search$"
-| eval display = case(type=="section" OR type=="subsection", null(), true(), "$display$") 
+| eval parent = case("$parent$"==":none:", null(), match("$parent$"," :: "), mvindex(split("$parent$", " :: "), 1), true(), null())
+| eval section = case("$parent$"==":none:", null(), "$type$"=="search" OR "$type$"=="link", mvindex(split("$parent$", " :: "),0), true(), null())
+| eval search = if("$type$"=="search","$search$",null())
+| eval link = if("$type$"=="link","$link$",null())
+| eval display = case(type=="section" OR type=="subsection", null(), "$type$"=="link", "link", true(), "$display$") 
 | eval notes = "$notes$"
 | eval date_added = case(type=="section" OR type=="subsection", null(), true(), strftime(now(), "%s"))
 ]
-| table name,type,parent,search,section,display,notes,date_added
+| table name,type,parent,search,link,section,display,notes,date_added
 | sort type section parent name
 | outputlookup search_catalog</query>
   </search>
@@ -24,16 +25,40 @@
     <input searchWhenChanged="false" type="radio" token="type">
       <label>Type</label>
       <choice value="search">Search</choice>
+      <choice value="link">Link</choice>
       <choice value="section">Section</choice>
       <choice value="subsection">Sub-Section</choice>
       <default>search</default>
       <initialValue>search</initialValue>
+      <change>
+        <condition value="search">
+          <set token="show_parent"></set>
+          <set token="show_search"></set>
+          <unset token="show_link"/>
+        </condition>
+        <condition value="link">
+          <set token="show_parent"></set>
+          <unset token="show_search"/>
+          <set token="show_link"></set>
+        </condition>
+        <condition value="subsection">
+          <set token="show_parent"></set>
+          <unset token="show_search"/>
+          <unset token="show_link"/>
+        </condition>
+        <condition>
+          <unset token="show_parent"/>
+          <unset token="show_search"/>
+          <unset token="show_link"/>
+        </condition>
+      </change>
     </input>
-    <input searchWhenChanged="false" type="dropdown" token="parent">
+    <input searchWhenChanged="false" type="dropdown" token="parent" depends="$show_parent$">
       <label>Parent</label>
       <choice value=":none:">None (Section)</choice>
       <fieldForLabel>name</fieldForLabel>
       <fieldForValue>name</fieldForValue>
+      <default>:none:</default>
       <search>
         <query>|inputlookup search_catalog
 |where type=="section" OR type=="subsection"
@@ -43,18 +68,22 @@
         <latest>now</latest>
       </search>
     </input>
-    <input searchWhenChanged="false" type="text" token="search">
+    <input searchWhenChanged="false" type="text" token="search" depends="$show_search$">
       <label>Search</label>
       <default></default>
     </input>
-    <input type="radio" token="display">
+    <input searchWhenChanged="false" type="text" token="link" depends="$show_link$">
+      <label>Link</label>
+      <default></default>
+    </input>
+    <input type="radio" token="display" depends="$show_search$">
       <label>Results Type</label>
       <choice value="events">Events</choice>
       <choice value="table">Table</choice>
       <default>events</default>
       <initialValue>events</initialValue>
     </input>
-    <input searchWhenChanged="false" type="text" token="notes">
+    <input searchWhenChanged="false" type="text" token="notes" depends="$show_search$">
       <label>Notes</label>
       <default></default>
     </input>
@@ -71,7 +100,7 @@
       <table>
         <search base="add">
           <query>
-| table name,type,parent,search,section,display,notes
+| table name,type,parent,search,link,section,display,notes
           </query>
         </search>
         <option name="count">100</option>
