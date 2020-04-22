@@ -103,19 +103,37 @@ class GenerateDashboards(GeneratingCommand):
                             )
                 else:
                     xname = re.sub('\W', '_', row['name'].lower())
-                    if not row['parent']:
-                        parent_name = row['section']
+                    if row['section']:
+                        if not row['parent']:
+                            parent_name = row['section']
+                        else:
+                            parent_name = row['section'] + '_' + row['parent']
                     else:
-                        parent_name = row['section'] + '_' + row['parent']
-                    mod_parent_name = re.sub('\W', '_', parent_name.lower())
-                    xname = mod_parent_name + '__' + xname
-                    if row['display'] == 'link':
+                        parent_name = None
+                    if parent_name:
+                        mod_parent_name = re.sub('\W', '_', parent_name.lower())
+                        xname = mod_parent_name + '__' + xname
+                    if row['display'] == 'link' and parent_name:
                         ET.SubElement(collection_dict[parent_name], "a", 
                             href=row['link'], \
                             target='_blank'). \
                             text = row['name']
+                    elif row['display'] == 'link' and not parent_name:
+                        collection_dict[row['name']] = ET.SubElement(
+                            catalog, 
+                            "a", 
+                            href=row['link'], 
+                            target='_blank'
+                            ).text = row['name']
                     else:
-                        ET.SubElement(collection_dict[parent_name], "view", name=xname)
+                        if not parent_name:
+                            collection_dict[row['name']] = ET.SubElement(
+                                catalog,
+                                "view",
+                                name=xname
+                                )
+                        else:
+                            ET.SubElement(collection_dict[parent_name], "view", name=xname)
                         filename = os.path.join(self.DASHBOARD_PATH, xname)
                         if row['notes']:
                             dashboard_generate(
