@@ -9,11 +9,11 @@
     <view name="search"/>
   </collection>
   <collection label="Config">
-    <a href="/app/lookup_editor/lookup_edit?owner=nobody&amp;namespace=search_catalog&amp;lookup=search_catalog.csv&amp;type=csv">Edit CSV (Requires Lookup Editor App)</a>
+    <a href="/app/lookup_editor/lookup_edit?owner=nobody&amp;namespace=search_catalog&amp;lookup=search_catalog.csv&amp;type=csv" target="_blank">Edit CSV (Requires Lookup Editor App)</a>
     <view name="_add_search"/>
     <view name="_refresh"/>
     <collection label="Most Populated Filter">
-      <a href="/app/lookup_editor/lookup_edit?owner=nobody&amp;namespace=search_catalog&amp;lookup=most_populated_filter.csv&amp;type=csv">Edit CSV (Requires Lookup Editor App)</a>
+      <a href="/app/lookup_editor/lookup_edit?owner=nobody&amp;namespace=search_catalog&amp;lookup=most_populated_filter.csv&amp;type=csv" target="_blank">Edit CSV (Requires Lookup Editor App)</a>
       <view name="_mpfilter"/>
     </collection>
   </collection>
