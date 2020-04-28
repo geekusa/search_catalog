@@ -16,6 +16,7 @@
 | search name="*$text_search$*" OR parent="*$text_search$*" OR search="*$text_search$*" OR section="*$text_search$*" OR notes="*$text_search$*"
 | eval dashboard_target = case(
       display=="link", link,
+      search!="" AND isnull(parent) AND isnull(section), replace(lower(name), "\W","_"),
       isnull(parent), replace(replace(lower(section."__".name), " ", "_"),"\W","_"),
       true(), replace(replace(lower(section."_".parent."__".name), " ", "_"),"\W","_")
       )

@@ -7,15 +7,16 @@
         <search>
           <query>
 | inputlookup search_catalog 
-| where search!=""
+| where search!="" OR link!=""
 | sort -date_added 
 | head 20
-|table section parent name
-|eval dashboard_target = if(isnull(parent),
-      replace(lower(section."__".name), " ", "_"),
-      replace(lower(section."_".parent."__".name), " ", "_")
+| eval dashboard_target = case(
+      display=="link", link,
+      search!="" AND isnull(parent) AND isnull(section), replace(lower(name), "\W","_"),
+      isnull(parent), replace(replace(lower(section."__".name), " ", "_"),"\W","_"),
+      true(), replace(replace(lower(section."_".parent."__".name), " ", "_"),"\W","_")
       )
-|rex mode=sed field=dashboard_target "s/\W/_/g"
+| table section parent name dashboard_target
           </query>
         </search>
         <option name="count">20</option>
@@ -26,7 +27,7 @@
           <scale type="sharedCategory"></scale>
         </format>
         <drilldown>
-          <link target="_blank">$row.dashboard_target$</link>
+          <link target="_blank">$row.dashboard_target|n$</link>
         </drilldown>
       </table>
     </panel>
