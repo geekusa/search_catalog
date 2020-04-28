@@ -1,4 +1,4 @@
-<form hideEdit="true">
+<form hideEdit="false">
   <label>Not Sure Where to Look?</label>
   <fieldset submitButton="true">
     <input type="text" token="text_search">
@@ -12,14 +12,14 @@
         <search>
           <query>
 | inputlookup search_catalog 
-| where search!=""
+| where search!="" OR link!=""
 | search name="*$text_search$*" OR parent="*$text_search$*" OR search="*$text_search$*" OR section="*$text_search$*" OR notes="*$text_search$*"
-| table section parent name
-| eval dashboard_target = if(isnull(parent),
-      replace(lower(section."__".name), " ", "_"),
-      replace(lower(section."_".parent."__".name), " ", "_")
+| eval dashboard_target = case(
+      display=="link", link,
+      isnull(parent), replace(replace(lower(section."__".name), " ", "_"),"\W","_"),
+      true(), replace(replace(lower(section."_".parent."__".name), " ", "_"),"\W","_")
       )
-| rex mode=sed field=dashboard_target "s/\W/_/g"
+| table section parent name dashboard_target
           </query>
         </search>
         <option name="drilldown">row</option>
@@ -29,7 +29,7 @@
           <scale type="sharedCategory"></scale>
         </format>
         <drilldown>
-          <link target="_blank">$row.dashboard_target$</link>
+          <link target="_blank">$row.dashboard_target|n$</link>
         </drilldown>
       </table>
     </panel>
