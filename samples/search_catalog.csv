@@ -6,7 +6,7 @@ Windows,section,,,,,,,
 Security,subsection,Linux,,,,,,
 File,subsection,Windows,,,,,,
 Security,subsection,Windows,,,,,,
-"Internal Index Sourcetypes Last 24hr",,,,"/app/search_catalog/search?q=%7C%20tstats%20count%20where%20index%3D_internal%20by%20sourcetype%0A%7C%20sort%20-count&display.page.search.mode=smart&dispatch.sample_ratio=1&workload_pool=&earliest=-24h%40h&latest=now&display.page.search.tab=statistics&display.general.type=statistics","Link Examples",link,,1587526711
+"Internal Index Sourcetypes Last 24hr",,,,"/app/search/search?q=%7C%20tstats%20count%20where%20index%3D_internal%20by%20sourcetype%0A%7C%20sort%20-count&display.page.search.mode=smart&dispatch.sample_ratio=1&workload_pool=&earliest=-24h%40h&latest=now&display.page.search.tab=statistics&display.general.type=statistics","Link Examples",link,,1587526711
 "Splunk Answers",,,,"https://answers.splunk.com","Link Examples",link,"",1587828872
 "SSHD Failed Logins",,Security,"sourcetype=syslog app=sshd action=failure",,Linux,events,"When using Splunk_TA_nix app",1515094223
 "SU To Root",,Security,"sourcetype=syslog process=su ""to root""",,Linux,events,"Linux privilege escalation",1515094222
