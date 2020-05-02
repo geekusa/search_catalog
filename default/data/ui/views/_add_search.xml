@@ -26,29 +26,33 @@
       <label>Type</label>
       <choice value="search">Search</choice>
       <choice value="link">Link</choice>
-      <choice value="section">Section</choice>
-      <choice value="subsection">Sub-Section</choice>
+      <choice value="section">Menu Section</choice>
+      <choice value="subsection">Menu Sub-Section</choice>
       <default>search</default>
       <initialValue>search</initialValue>
       <change>
         <condition value="search">
           <set token="show_parent"></set>
           <set token="show_search"></set>
+          <set token="show_notes"></set>
           <unset token="show_link"/>
         </condition>
         <condition value="link">
           <set token="show_parent"></set>
           <unset token="show_search"/>
+          <set token="show_notes"></set>
           <set token="show_link"></set>
         </condition>
         <condition value="subsection">
           <set token="show_parent"></set>
           <unset token="show_search"/>
+          <unset token="show_notes"/>
           <unset token="show_link"/>
         </condition>
         <condition>
           <unset token="show_parent"/>
           <unset token="show_search"/>
+          <unset token="show_notes"/>
           <unset token="show_link"/>
         </condition>
       </change>
@@ -78,12 +82,13 @@
     </input>
     <input type="radio" token="display" depends="$show_search$">
       <label>Results Type</label>
-      <choice value="events">Events</choice>
-      <choice value="table">Table</choice>
+      <choice value="events">Generate Dashboard with Events</choice>
+      <choice value="table">Generate Dashboard with Table</choice>
+      <choice value="link">Generate Link to Search</choice>
       <default>events</default>
       <initialValue>events</initialValue>
     </input>
-    <input searchWhenChanged="false" type="text" token="notes" depends="$show_search$">
+    <input searchWhenChanged="false" type="text" token="notes" depends="$show_notes$">
       <label>Notes</label>
       <default></default>
     </input>
