@@ -1,24 +1,25 @@
-name,type,parent,search,link,section,display,notes,"date_added"
-"Link Examples",section,,,,,,,
-Linux,section,,,,,,,
-"Table Example",section,,,,,,,
-Windows,section,,,,,,,
-Security,subsection,Linux,,,,,,
-File,subsection,Windows,,,,,,
-Security,subsection,Windows,,,,,,
-"Internal Index Sourcetypes Last 24hr",,,,"/app/search/search?q=%7C%20tstats%20count%20where%20index%3D_internal%20by%20sourcetype%0A%7C%20sort%20-count&display.page.search.mode=smart&dispatch.sample_ratio=1&workload_pool=&earliest=-24h%40h&latest=now&display.page.search.tab=statistics&display.general.type=statistics","Link Examples",link,,1587526711
-"Splunk Answers",,,,"https://answers.splunk.com","Link Examples",link,"",1587828872
-"SSHD Failed Logins",,Security,"sourcetype=syslog app=sshd action=failure",,Linux,events,"When using Splunk_TA_nix app",1515094223
-"SU To Root",,Security,"sourcetype=syslog process=su ""to root""",,Linux,events,"Linux privilege escalation",1515094222
-"SUDO Issued Commands",,Security,"sourcetype=syslog process=sudo COMMAND=*",,Linux,events,"Linux privilege escalation",1515094221
-"Table View Example",,,"|inputlookup search_catalog",,"Table Example",table,"Some searches by default do not have event views like dbxquery",1515280410
-"Windows File Audit",,File,"index=wineventlog EventCode=4663",,Windows,events,"File events, requires special auditing group policy.",1515094224
-"Account Creation",,Security,"index=wineventlog EventCode=4720",,Windows,events,"Subject Account Name is the creator",1515094225
-"Audit Log Cleared",,Security,"index=wineventlog EventCode=1102",,Windows,events,"Requires admin privilege to perform",1515094220
-"Failed Logon",,Security,"index=wineventlog EventCode=4625",,Windows,events,"Give careful attention to Logon Type",1515094219
-"Lock and Unlock Events",,Security,"index=wineventlog EventCode IN (4800 4801)",,Windows,events,"Domain or local events",1515094227
-"Lockout Event",,Security,"index=wineventlog EventCode=4740",,Windows,events,"Can occur for local or domain accounts",1515094226
-"PowerShell Script Block",,Security,"index=wineventlog EventCode=4104",,Windows,events,"Logs suspicious PowerShell scripts even if script block not enabled only on PSv5+",1515217889
-"Privileged Account Usage",,Security,"index=wineventlog EventCode=4672",,Windows,events,"Administrative rights being used",1515094228
-Splunkbase,,,,"https://splunkbase.splunk.com",,link,"",1587527015
-"Top Level Search Example",,,"|inputlookup search_catalog |eval parent = if(isnull(parent), "":none:"", parent) |stats count by section parent |eval parent = if(parent == "":none:"", null(), parent) |stats dc(parent) AS subsections sum(count) AS searches BY section",,,table,"",1587528396
+name,type,parent,search,link,section,display,notes,earliest,latest,"date_added"
+"Link Examples",section,,,,,,,,,
+Linux,section,,,,,,,,,
+"Table Example",section,,,,,,,,,
+Windows,section,,,,,,,,,
+Security,subsection,Linux,,,,,,,,
+File,subsection,Windows,,,,,,,,
+Security,subsection,Windows,,,,,,,,
+"Internal Index Sourcetypes Last 24hr",,,,"/app/search/search?q=%7C%20tstats%20count%20where%20index%3D_internal%20by%20sourcetype%0A%7C%20sort%20-count&display.page.search.mode=smart&dispatch.sample_ratio=1&workload_pool=&earliest=-24h%40h&latest=now&display.page.search.tab=statistics&display.general.type=statistics","Link Examples",link,,,,1587526711
+"Internal Index Sourcetypes Last 24hr Gen Example",,,"| tstats count where index=_internal by sourcetype | sort -count",,"Link Examples",link,"","-1d",now,1588453353
+"Splunk Answers",,,,"https://answers.splunk.com","Link Examples",link,"",,,1587828872
+"SSHD Failed Logins",,Security,"sourcetype=syslog app=sshd action=failure",,Linux,events,"When using Splunk_TA_nix app",,,1515094223
+"SU To Root",,Security,"sourcetype=syslog process=su ""to root""",,Linux,events,"Linux privilege escalation",,,1515094222
+"SUDO Issued Commands",,Security,"sourcetype=syslog process=sudo COMMAND=*",,Linux,events,"Linux privilege escalation",,,1515094221
+"Table View Example",,,"|inputlookup search_catalog",,"Table Example",table,"Some searches by default do not have event views like dbxquery",,,1515280410
+"Windows File Audit",,File,"index=wineventlog EventCode=4663",,Windows,events,"File events, requires special auditing group policy.",,,1515094224
+"Account Creation",,Security,"index=wineventlog EventCode=4720",,Windows,events,"Subject Account Name is the creator",,,1515094225
+"Audit Log Cleared",,Security,"index=wineventlog EventCode=1102",,Windows,events,"Requires admin privilege to perform",,,1515094220
+"Failed Logon",,Security,"index=wineventlog EventCode=4625",,Windows,events,"Give careful attention to Logon Type",,,1515094219
+"Lock and Unlock Events",,Security,"index=wineventlog EventCode IN (4800 4801)",,Windows,events,"Domain or local events",,,1515094227
+"Lockout Event",,Security,"index=wineventlog EventCode=4740",,Windows,events,"Can occur for local or domain accounts",,,1515094226
+"PowerShell Script Block",,Security,"index=wineventlog EventCode=4104",,Windows,events,"Logs suspicious PowerShell scripts even if script block not enabled only on PSv5+",,,1515217889
+"Privileged Account Usage",,Security,"index=wineventlog EventCode=4672",,Windows,events,"Administrative rights being used",,,1515094228
+Splunkbase,,,,"https://splunkbase.splunk.com",,link,"",,,1587527015
+"Top Level Search Example",,,"|inputlookup search_catalog |eval parent = if(isnull(parent), "":none:"", parent) |stats count by section parent |eval parent = if(parent == "":none:"", null(), parent) |stats dc(parent) AS subsections sum(count) AS searches BY section",,,table,"",,,1587528396
