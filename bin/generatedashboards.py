@@ -5,6 +5,10 @@ import os
 import sys
 import xml.etree.cElementTree as ET
 import xml.dom.minidom
+if sys.version_info >= (3, 0):
+    from urllib.parse import quote_plus
+else:
+    from urllib import quote_plus
 
 from dashboard_generate import *
 from splunklib.searchcommands import dispatch, GeneratingCommand, Configuration, Option, validators
@@ -84,6 +88,7 @@ class GenerateDashboards(GeneratingCommand):
         #iterate over CSV and create sub menus
         collection_dict = {}
         n = 0
+        l = 0
         with open(self.LOOKUP_FILE) as csv_file:
             input_file = csv.DictReader(csv_file)
             for row in input_file:
@@ -113,18 +118,34 @@ class GenerateDashboards(GeneratingCommand):
                     if parent_name:
                         mod_parent_name = re.sub('\W', '_', parent_name.lower())
                         xname = mod_parent_name + '__' + xname
-                    if row['display'] == 'link' and parent_name:
-                        ET.SubElement(collection_dict[parent_name], "a", 
-                            href=row['link'], \
-                            target='_blank'). \
-                            text = row['name']
-                    elif row['display'] == 'link' and not parent_name:
-                        collection_dict[row['name']] = ET.SubElement(
-                            catalog, 
-                            "a", 
-                            href=row['link'], 
-                            target='_blank'
-                            ).text = row['name']
+                    if row['display'] == 'link':
+                        if row['search']:
+                            if row['earliest']:
+                                earliest = row['earliest']
+                            else:
+                                earliest = '-24h'
+                            if row['latest']:
+                                latest = row['latest']
+                            else:
+                                latest = 'now'
+                            link='/app/search/search?q='+quote_plus(row['search'])+'&amp;display.page.search.tab=events&amp;display.general.type=events&amp;earliest='+earliest+'&amp;latest='+latest
+                        else:
+                            link=row['link']
+                        if parent_name:
+                            ET.SubElement(
+                                collection_dict[parent_name], 
+                                "a", 
+                                href=link,
+                                target='_blank' 
+                                ).text = row['name']
+                        elif not parent_name:
+                            collection_dict[row['name']] = ET.SubElement(
+                                catalog, 
+                                "a", 
+                                href=link,
+                                target='_blank'
+                                ).text = row['name']
+                        l += 1
                     else:
                         if not parent_name:
                             collection_dict[row['name']] = ET.SubElement(
@@ -160,7 +181,7 @@ class GenerateDashboards(GeneratingCommand):
             f.write(pretty_xml_as_string)
 
         #Display output of results to Splunk
-        text = '%d Dasbhoards Generated' % n
+        text = '%d Dasbhoards Generated, %d Links Generated' % (n, l)
         yield {'result': text}
 
 

@@ -1,4 +1,4 @@
-<form stylesheet="search_catalog.css" hideEdit="true">
+<form stylesheet="search_catalog.css" hideEdit="false">
   <label>Add Search (Append Only)</label>
   <search id="add">
     <query>| inputlookup search_catalog
@@ -11,10 +11,12 @@
 | eval search = if("$type$"=="search","$search$",null())
 | eval link = if("$type$"=="link","$link$",null())
 | eval display = case(type=="section" OR type=="subsection", null(), "$type$"=="link", "link", true(), "$display$") 
+| eval earliest = if("$type$"=="search" AND display=="link","$earliest$",null())
+| eval latest = if("$type$"=="search" AND display=="link","$latest$",null())
 | eval notes = "$notes$"
 | eval date_added = case(type=="section" OR type=="subsection", null(), true(), strftime(now(), "%s"))
 ]
-| table name,type,parent,search,link,section,display,notes,date_added
+| table name,type,parent,search,link,section,display,notes,earliest,latest,date_added
 | sort type section parent name
 | outputlookup search_catalog</query>
   </search>
@@ -35,25 +37,29 @@
           <set token="show_parent"></set>
           <set token="show_search"></set>
           <set token="show_notes"></set>
-          <unset token="show_link"/>
+          <unset token="show_link"></unset>
+          <unset token="show_parent_help"></unset>
         </condition>
         <condition value="link">
           <set token="show_parent"></set>
-          <unset token="show_search"/>
+          <unset token="show_search"></unset>
           <set token="show_notes"></set>
           <set token="show_link"></set>
+          <unset token="show_parent_help"></unset>
         </condition>
         <condition value="subsection">
           <set token="show_parent"></set>
-          <unset token="show_search"/>
-          <unset token="show_notes"/>
-          <unset token="show_link"/>
+          <unset token="show_search"></unset>
+          <unset token="show_notes"></unset>
+          <unset token="show_link"></unset>
+          <set token="show_parent_help"></set>
         </condition>
         <condition>
-          <unset token="show_parent"/>
-          <unset token="show_search"/>
-          <unset token="show_notes"/>
-          <unset token="show_link"/>
+          <unset token="show_parent"></unset>
+          <unset token="show_search"></unset>
+          <unset token="show_notes"></unset>
+          <unset token="show_link"></unset>
+          <set token="show_parent_help"></set>
         </condition>
       </change>
     </input>
@@ -87,9 +93,32 @@
       <choice value="link">Generate Link to Search</choice>
       <default>events</default>
       <initialValue>events</initialValue>
+      <change>
+        <condition value="link">
+          <set token="show_time"></set>
+        </condition>
+        <condition>
+          <unset token="show_time"></unset>
+        </condition>
+      </change>
     </input>
     <input searchWhenChanged="false" type="text" token="notes" depends="$show_notes$">
       <label>Notes</label>
+      <default></default>
+    </input>
+    <html>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+    </html>
+    <input type="text" token="earliest" depends="$show_time$">
+      <label>Earliest Time</label>
+      <default></default>
+    </input>
+    <input type="text" token="latest" depends="$show_time$">
+      <label>Latest Time</label>
       <default></default>
     </input>
   </fieldset>
@@ -102,10 +131,91 @@
   </row>
   <row>
     <panel>
+      <input type="link" token="help">
+        <label>Show Help?</label>
+        <choice value="Yes">Yes</choice>
+        <choice value="No">No</choice>
+        <default>No</default>
+        <initialValue>No</initialValue>
+        <change>
+          <condition value="Yes">
+            <set token="show_help">True</set>
+          </condition>
+          <condition>
+            <unset token="show_help"></unset>
+          </condition>
+        </change>
+      </input>
+    </panel>
+  </row>
+  <row depends="$show_help$">
+    <panel depends="$show_search$">
+      <html>
+      <div class="hidden_panel">
+A search can be used to generate a dashboard about the search (with a link to the search) or generate a link to the search from the menu.
+<ul>
+  <li>
+When adding a search you may first want to make sure you have a menu section (and possibly sub-section) created to store it, otherwise selecting None will place the item in the top level of the Search Catalog pull down menu.
+  </li>
+  <li>
+The Name input is the value the end-user will see in the menu for this search.
+  </li>
+  <li>
+The Search field is the SPL data used to navigate the user to the search you want them to see. Be sure to escape (meaning the "\" backslash character) any double-quotes in the search as the entire search in the CSV file is surrounded by double-quotes.
+  </li>
+  <li>
+The Results Type determines what the generate dashboards will do with your search. If you select events or table, a generic dashboard will be created with a link to the search, the results of the search (displayed as events or a table) and basic information about the results as well as a time picker. If you choose to generate a link to the search, the menu item will take the user directly to the search. You will have the option to give the time constraints to the search.
+  </li>
+  <li>
+Finally the Notes section is display on a generated search, and it is also used in the "Not Sure Where to Look?" dashboard as the terms a user may look for that will cause this item to appear. 
+  </li>
+</ul>
+      </div>
+    </html>
+    </panel>
+    <panel depends="$show_link$">
+      <html>
+      <div class="hidden_panel">
+A link can be used to direct a user to a dashboard, search, or even an external URL.
+<ul>
+  <li>
+When adding a link you may first want to make sure you have a menu section (and possibly sub-section) created to store it, otherwise selecting None will place the item in the top level of the Search Catalog pull down menu.
+  </li>
+  <li>
+The Name input is the value the end-user will see in the menu for this link.
+  </li>
+  <li>
+The link field URL data used to navigate the user to the dashboard, search, or external site you want them to see. For linking to a dashboard or search you can simple start with /app/app_name/ and then either the name of the dashboard or search?q= and the URL encoded search (i.e. /app/search/my_dashboard). Alternatively, you can choose link as the result type from the Search option and this will be done for you. You can also place an entire URL here like https://splunk.com
+  </li>
+  <li>
+Finally the Notes section is used in the "Not Sure Where to Look?" dashboard as the terms a user may look for that will cause this item to appear. 
+  </li>
+</ul>
+      </div>
+    </html>
+    </panel>
+    <panel depends="$show_parent_help$">
+      <html>
+      <div class="hidden_panel">
+Adding menu sections and subsections allow you to control what a user sees for categories.
+<ul>
+  <li>
+The Name input is the value the end-user will see for the menu section.
+  </li>
+  <li>
+If you chose Sub-Section you will need to select which parent section it should live under so make sure the parent section exist (refresh the page if you just added it). 
+  </li>
+</ul>
+      </div>
+    </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
       <table>
         <search base="add">
           <query>
-| table name,type,parent,search,link,section,display,notes
+| table name,type,parent,search,link,section,display,notes,earliest,latest
           </query>
         </search>
         <option name="count">100</option>
