@@ -164,7 +164,7 @@ The Name input is the value the end-user will see in the menu for this search.
 The Search field is the SPL data used to navigate the user to the search you want them to see. Be sure to escape (meaning the "\" backslash character) any double-quotes in the search as the entire search in the CSV file is surrounded by double-quotes.
   </li>
   <li>
-The Results Type determines what the generate dashboards will do with your search. If you select events or table, a generic dashboard will be created with a link to the search, the results of the search (displayed as events or a table) and basic information about the results as well as a time picker. If you choose to generate a link to the search, the menu item will take the user directly to the search. You will have the option to give the time constraints to the search.
+The Results Type determines what the generate dashboards will do with your search. If you select events or table, a generic dashboard will be created with a link to the search, the results of the search (displayed as events or a table) and basic information about the results as well as a time picker. If you choose to generate a link to the search, the menu item will take the user directly to the search. You will have the option to give the time constraints to the search (defaults to last 24 hours if none is given).
   </li>
   <li>
 Finally the Notes section is display on a generated search, and it is also used in the "Not Sure Where to Look?" dashboard as the terms a user may look for that will cause this item to appear. 
